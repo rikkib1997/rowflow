@@ -1,10 +1,10 @@
 var W = 640;
 var H = 480;
-var FR = 20;
+var FR = 60;
 
 var boatimage;
 
-function preload(){
+function preload() {
     boatimage = loadImage('empacher.png');
     paalimage = loadImage('paal.png');
     frameRate(FR);
@@ -17,15 +17,15 @@ function setup() {
     noFill();
     angleMode(DEGREES);
 
-    
+
     imageMode(CENTER)
-    boat1 = new Boat(300-W/2, 300-H/2, boatimage, paalimage);
+    boat1 = new Boat(300 - W / 2, 300 - H / 2, boatimage, paalimage);
 }
 
 function draw() {
-    
+
     background(206, 253, 253)
-    rect(-W/2, -H/2, W, H);
+    rect(-W / 2, -H / 2, W, H);
     boat1.display()
 
 
@@ -34,14 +34,14 @@ function draw() {
 }
 
 
-function keyPressed(){
+function keyPressed() {
     boat1.haal();
 }
 
 
 
-class Boat{
-    constructor(x, y, boatimage, paalimage){
+class Boat {
+    constructor(x, y, boatimage, paalimage) {
         this.x = x;
         this.y = y;
         this.xspeed = 0;
@@ -52,25 +52,25 @@ class Boat{
         this.boatimage = boatimage;
 
         this.paal = new Paal(this.x, this.y, paalimage)
-        
+
     }
 
     display() {
 
-        
-        image(this.boatimage,this.x,this.y);
-        this.paal.update(this.x, this.y-20);
+
+        image(this.boatimage, this.x, this.y);
+        this.paal.update(this.x, this.y - 50);
         this.paal.display();
         this.move()
 
     }
     move() {
-        
+
         this.x += this.xspeed;
         this.y += this.yspeed;
     }
 
-    haal(){
+    haal() {
         this.paal.haal();
     }
 
@@ -80,13 +80,14 @@ class Boat{
 
 
 
-class Paal{
-    
-    constructor(x, y, image){
+class Paal {
+
+    constructor(x, y, image) {
         this.x = x;
         this.y = y;
         this.rspeed = 0;
         this.rotation = 0;
+        this.zspeed = 0;
         this.zrotation = 0;
 
         this.image = image;
@@ -100,73 +101,87 @@ class Paal{
 
 
     display() {
-        
+
 
         translate(this.x, this.y, 100)
         rotate(180);
-        
+
 
         //console.log(this.rotation)
-        console.log(this.zrotation)
-              
-        
+        //console.log(this.zrotation)
+
+
         rotateY(this.rotation);
         rotateZ(this.zrotation)
         this.rotate();
-        image(this.image,0,0);
-        
-        
-        
-        
-        
+        image(this.image, 0, 0);
+
+
+
+
+
     }
     rotate() {
-        
+
         this.rotation += this.rspeed;
-        
+
 
     }
 
-    update(x, y){
+    update(x, y) {
         this.x = x;
         this.y = y;
 
-        if(this.inhaal){
-            this.rspeed = 10;
-            this.zrotation = 45-abs(this.rotation-90)/2;
-        }
-        if(this.rotation >= 180){
-            this.rspeed = 0;
-            
+        console.log(this.inhaal, this.rspeed, this.rotation);
+
+
+        if (this.inhaal) {
+            this.rspeed = FR/15;
+            this.zrotation = this.zrotation = sin(this.rotation) * 20
+
+
+            if (this.rotation >= 180) {
+                this.rspeed = 0;
+                this.inhaal = false;
+
+            }
+
+        } else { 
+            if (this.rotation <= 0) {
+                this.rspeed = 0;
+                this.inhaal = false;
+            } else {
+                this.rspeed = -FR/20;
+            }
+
+
+
         }
     }
 
-    haal(){
-        if (!this.inhaal){
+
+    haal() {
+        if (!this.inhaal && this.rotation < 100) {
             this.inhaal = true;
-        }else{
-            
+        } else {
+
             this.inhaal = false;
-            this.rspeed = 0;
-            this.rotation = 0;
+            //this.rspeed = 0;
+            //this.rotation = 0;
             this.zrotation = 0;
         }
 
     }
 
-    recover(){
-        
-
-    }
-        
-        
-        
-        
 
 
-        
 
-        
+
+
+
+
+
+
 
 
 }
