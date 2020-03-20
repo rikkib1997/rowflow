@@ -46,7 +46,7 @@ function draw() {
     scale(1.5);
     
     translate(0,-10)
-    image(backgroundImage,bgpos,0)
+    image(backgroundImage,bgpos,0) 
     image(backgroundImage,bgpos+W-50,0)
     pop();
     if(bgpos<-W){ 
@@ -71,6 +71,10 @@ function draw() {
 function keyPressed() {
     boat1.haal();
     //boat2.haal();
+}
+
+function mouseClicked(){
+    boat1.haal();
 }
 
 
