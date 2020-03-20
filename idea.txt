@@ -1,0 +1,17 @@
+
+
+roeibootje zijaanzicht
+paal die in en uit het water kan
+geef aan wanneer je inpikt en uitpikt
+
+snelheid van oprijden wordt bepaalt door relatieve tijdigheid van vorige uitpik
+snelheid van boot wordt bepaalt door haallengte x snelheid haal
+
+
+
+
+drawing:
+
+background
+roeibootje
+paal
