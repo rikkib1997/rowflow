@@ -6,6 +6,7 @@ var boatImage;
 var paalImage
 var backgroundImage;
 var bgpos = 0;
+var gestart = false;
 
 function preload() {
     boatImage = loadImage('empacher.png');
@@ -52,15 +53,16 @@ function draw() {
     if(bgpos<-W){ 
         bgpos = -50;
     }
-
+    console.log(boat1.xspeed);
     rect(-W / 2, -H / 2, W, H);
     boat1.display()
     boat2.display()
-    boat2.xspeed = 7.5;
+    boat2.xspeed = 8;
     boat2.xspeed = boat2.xspeed-boat1.xspeed;
 
-    boat2.move()
-    
+    if(gestart){
+        boat2.move()
+    }
     
 
     
@@ -71,10 +73,12 @@ function draw() {
 function keyPressed() {
     boat1.haal();
     //boat2.haal();
+    gestart = true;
 }
 
 function mouseClicked(){
     boat1.haal();
+    gestart = true;
 }
 
 
@@ -106,11 +110,11 @@ class Boat {
         this.paal.display();
         pop()
 
-        this.distance += this.xspeed;
+        //this.distance += this.xspeed;
         //console.log(this.distance);
         
         //console.log(this.xspeed);
-        this.xspeed += this.paal.accel*3;
+        this.xspeed += this.paal.accel*4*map(this.xspeed,0,10,0.3,1.1); 
 
         this.xspeed -= this.xspeed*this.xspeed*0.001 + 0.003;
         if(this.xspeed < 0){
@@ -130,7 +134,7 @@ class Boat {
         
         this.paal.haal();
         console.log("inpik")
-        this.xspeed -= this.xspeed*this.xspeed*0.01
+        this.xspeed -= this.xspeed*this.xspeed*0.013
 
 
     }
