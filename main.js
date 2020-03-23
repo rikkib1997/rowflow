@@ -53,7 +53,7 @@ function draw() {
     if(bgpos<-W){ 
         bgpos = -50;
     }
-    console.log(boat1.xspeed);
+    //console.log(boat1.xspeed);
     rect(-W / 2, -H / 2, W, H);
     boat1.display()
     boat2.display()
@@ -76,9 +76,23 @@ function keyPressed() {
     gestart = true;
 }
 
-function mouseClicked(){
+
+
+function keyReleased(){
+    if(boat1.paal.inhaal){
+    console.log(boat1.paal.inhaal);
     boat1.haal();
-    gestart = true;
+    }
+    
+}
+
+
+
+function mousePressed(){
+    keyPressed();
+}
+function mouseReleased(){
+    keyReleased();
 }
 
 
@@ -133,7 +147,7 @@ class Boat {
     haal() {
         
         this.paal.haal();
-        console.log("inpik")
+        
         this.xspeed -= this.xspeed*this.xspeed*0.013
 
 
@@ -200,10 +214,11 @@ class Paal {
 
         } else { 
             if (this.rotation <= 0) {
+                
                 this.rspeed = 0;
                 this.inhaal = false;
             } else {
-
+                
                 this.rspeed = -FR/20;
             }
             this.accel = 0;
@@ -214,11 +229,12 @@ class Paal {
     haal() {
         if (!this.inhaal) {
             if(this.rotation < 100){
+            console.log("inpik")
             this.inhaal = true;
             
             }
         } else {
-
+            console.log("uitpik")
             this.inhaal = false;
 
             this.zrotation = 0;
