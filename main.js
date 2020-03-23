@@ -119,10 +119,14 @@ class Boat {
         translate(0,0, 150) 
         scale(0.6)
         image(this.boatimage, this.x, this.y);
-        
+
         this.paal.update(this.x, this.y - 50);
         this.paal.display();
         pop()
+
+
+
+
 
         //this.distance += this.xspeed;
         //console.log(this.distance);
@@ -181,13 +185,19 @@ class Paal {
 
 
     display() {
-        
+        push();
         translate(this.x, this.y, 30)
         rotate(180);
+        
+        
+        
+        
+        
         rotateY(this.rotation);
         rotateZ(this.zrotation)
         this.rotate();
         image(this.image, 0, 0);
+        pop();
         
     }
     rotate() {
