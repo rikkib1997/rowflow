@@ -7,12 +7,14 @@ var paalImage
 var backgroundImage;
 var bgpos = 0;
 var gestart = false;
+var textbox;
 
 function preload() {
-    boatImage = loadImage('empacher.png');
-    paalImage = loadImage('paal.png');
-    backgroundImage = loadImage('bg.jpg');
+    boatImage = loadImage('assets/empacher.png');
+    paalImage = loadImage('assets/paal.png');
+    backgroundImage = loadImage('assets/bg.jpg');
     frameRate(FR);
+    inconsolata = loadFont('assets/Inconsolata.otf');
 }
 
 function setup() {
@@ -24,6 +26,11 @@ function setup() {
     perspective(PI / 3.0, W / H, 0.1, 500);
     //ortho(-W / 2, W / 2, -H / 2, H / 2, 1, 500);
     angleMode(DEGREES);
+
+    textbox = createP("0").addClass("distance");
+
+
+
      
 
     imageMode(CENTER)
@@ -33,12 +40,13 @@ function setup() {
 
 function draw() {
     
+    
     orbitControl();
      
-    
+    textbox.html(floor(boat1.distance))
     
     bgpos -= boat1.xspeed;
-
+    boat1.distance += boat1.xspeed;
 
     
     background(206, 253, 253);
@@ -53,9 +61,12 @@ function draw() {
     if(bgpos<-W){ 
         bgpos = -50;
     }
-    //console.log(boat1.xspeed);
+
+    
+
+    console.log(boat1.distance);
     rect(-W / 2, -H / 2, W, H);
-    boat1.display()
+    boat1.display();
     boat2.display()
     boat2.xspeed = 8;
     boat2.xspeed = boat2.xspeed-boat1.xspeed;
