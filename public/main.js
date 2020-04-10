@@ -70,10 +70,9 @@ function draw() {
 
     bgpos -= 0.8 * boat1.xspeed;
     boat1.distance += boat1.xspeed;
-    
     background(206, 253, 253);
 
-
+    
 
     push();
     scale(1.5);
@@ -88,10 +87,8 @@ function draw() {
 
 
 
-    //console.log(boat1.distance);
     rect(-W / 2, -H / 2, W, H);
     boat1.display();
-    //boat2.display()
     boat2.xspeed = 9.5;
     boat2.distance += boat2.xspeed;
     boat2.xspeed = boat2.xspeed - boat1.xspeed;
@@ -125,7 +122,6 @@ function boatsUpdate(){
 
         if (id !== socket.id) {
             if(abs(boat1.distance - otherDistance) < W + boatImage.width/2){
-                console.log("visible");
             
                 boat = new Boat(300 - W / 2, 100 - H / 2, 1, boatImage, paalImage);
                 boat.distance = clients[i].distance;
@@ -137,10 +133,8 @@ function boatsUpdate(){
 
                 boat.display();
                 
-                //console.log(id);
                 
-                //console.log(boat.distance);
-                //console.log(boat);
+                console.log(boat.distance);
             }
 
         }
@@ -151,7 +145,6 @@ function boatsUpdate(){
 
 function keyPressed() {
     boat1.haal();
-    //boat2.haal();
     gestart = true;
 }
 
@@ -159,7 +152,6 @@ function keyPressed() {
 
 function keyReleased() {
     if (boat1.paal.inhaal) {
-        //console.log(boat1.paal.inhaal);
         boat1.haal();
     }
 
@@ -208,10 +200,7 @@ class Boat {
 
 
 
-        //this.distance += this.xspeed;
-        //console.log(this.distance);
 
-        //console.log(this.xspeed);
         this.xspeed += this.paal.accel * 4 * map(this.xspeed, 0, 10, 0.3, 1.1);
 
         this.xspeed -= this.xspeed * this.xspeed * 0.0006 + 0.0035;
@@ -289,7 +278,6 @@ class Paal {
         this.x = x;
         this.y = y;
 
-        //console.log(this.inhaal, this.rspeed, this.rotation);
 
 
         if (this.inhaal) {
@@ -319,12 +307,10 @@ class Paal {
     haal() {
         if (!this.inhaal) {
             if (this.rotation < 100) {
-                //console.log("inpik")
                 this.inhaal = true;
 
             }
         } else {
-            //console.log("uitpik")
             this.inhaal = false;
 
             this.zrotation = 0;
