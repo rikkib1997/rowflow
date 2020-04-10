@@ -15,3 +15,10 @@ fixes:
 - [ ] Refactor
 - [ ] add variables to physics
 - [ ] change perspective to show multiple boats
+
+
+## Instructions
+```
+npm install
+npm start
+```
