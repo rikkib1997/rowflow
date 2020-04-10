@@ -50,25 +50,26 @@ io.sockets.on(
     console.log('We have a new client: ' + socket.id);
 
     socket.on('start', function(data) {
-      console.log(socket.id + ' ' + data.x + ' ' + data.y + ' ' + data.r);
-      var boat = new Boat(socket.id, data.x, data.y, data.r);
+      console.log(socket.id + ' ' + data.distance);
+      var boat = new Boat(socket.id, data.distance);
       boats.push(boat);
     });
 
     socket.on('update', function(data) {
-      //console.log(socket.id + " " + data.x + " " + data.y + " " + data.r);
+      console.log(socket.id + " " + data.distance);
       var boat;
       for (var i = 0; i < boats.length; i++) {
         if (socket.id == boats[i].id) {
           boat = boats[i];
         }
       }
-      boat.distance = data.distance;
-
+      if(boat){
+        boat.distance = data.distance;
+      }
     });
 
     socket.on('disconnect', function() {
-      console.log('Client has disconnected');
+      console.log('Client has disconnected ' + socket.id);
     });
   }
 );

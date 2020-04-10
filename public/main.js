@@ -11,6 +11,10 @@ var textbox;
 var timer = 0;
 var finishline = 10000;
 
+var boats;
+var clients = [];
+
+
 function preload() {
     boatImage = loadImage('assets/empacher.png');
     paalImage = loadImage('assets/paal.png');
@@ -41,6 +45,21 @@ function setup() {
     imageMode(CENTER)
     boat1 = new Boat(300 - W / 2, 330 - H / 2, 0, boatImage, paalImage);
     boat2 = new Boat(300 - W / 2, 100 - H / 2, 1, boatImage, paalImage);
+
+    socket = io.connect('http://localhost:3000');
+
+
+    // Make a little object with  and y
+    var data = {
+        distance: boat1.distance,        
+    };
+    socket.emit('start', data);
+
+    socket.on('heartbeat', function(data) {
+        clients = data;
+        
+    });
+
 }
 
 function draw() {
@@ -72,13 +91,15 @@ function draw() {
 
 
 
-    console.log(boat1.distance);
+    //console.log(boat1.distance);
     rect(-W / 2, -H / 2, W, H);
     boat1.display();
-    boat2.display()
+    //boat2.display()
     boat2.xspeed = 9.5;
     boat2.distance += boat2.xspeed;
     boat2.xspeed = boat2.xspeed - boat1.xspeed;
+
+    boatsUpdate();
 
     if (gestart) {
         boat2.move()
@@ -87,13 +108,35 @@ function draw() {
         }
     }
 
+    var data = {
+        distance: boat1.distance,
+      };
+    socket.emit('update', data);
 
 
 
+}
 
+function boatsUpdate(){
+    for (var i = 0; i < clients.length; i++) {
+        var id = clients[i].id;
+        var otherDistance = clients[i].distance;
 
+        
+        if (id !== socket.id) {
+            if(abs(boat1.distance - otherDistance) < W/2 + boatImage.width/2){
+            
+            boat = new Boat(300 - W / 2, 100 - H / 2, 1, boatImage, paalImage);
+            boat.distance = clients[i].distance;
+            boat.x = boat.distance - boat1.distance;
+            boat.display();
+            //console.log(id);
+            
+            //console.log(boat.distance);
+            }
 
-
+        }
+    }
 
 }
 
@@ -108,7 +151,7 @@ function keyPressed() {
 
 function keyReleased() {
     if (boat1.paal.inhaal) {
-        console.log(boat1.paal.inhaal);
+        //console.log(boat1.paal.inhaal);
         boat1.haal();
     }
 
@@ -268,28 +311,18 @@ class Paal {
     haal() {
         if (!this.inhaal) {
             if (this.rotation < 100) {
-                console.log("inpik")
+                //console.log("inpik")
                 this.inhaal = true;
 
             }
         } else {
-            console.log("uitpik")
+            //console.log("uitpik")
             this.inhaal = false;
 
             this.zrotation = 0;
         }
 
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }
