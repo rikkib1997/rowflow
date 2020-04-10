@@ -11,7 +11,6 @@ var textbox;
 var timer = 0;
 var finishline = 10000;
 
-var boats;
 var clients = [];
 
 
@@ -30,7 +29,7 @@ function setup() {
     noFill();
     angleMode(RADIANS);
     perspective(PI / 3.0, W / H, 0.1, 500);
-    //ortho(-W / 2, W / 2, -H / 2, H / 2, 1, 500);
+    ortho(-W / 2, W / 2, -H / 2, H / 2, 1, 500);
     angleMode(DEGREES);
 
     distancetext = createP("0").addClass("distance");
@@ -49,9 +48,9 @@ function setup() {
     socket = io.connect('http://localhost:3000');
 
 
-    // Make a little object with  and y
     var data = {
-        distance: boat1.distance,        
+        distance: boat1.distance, 
+    
     };
     socket.emit('start', data);
 
@@ -74,7 +73,6 @@ function draw() {
     boat1.distance += boat1.xspeed;
     
     background(206, 253, 253);
-
 
 
 
@@ -110,6 +108,8 @@ function draw() {
 
     var data = {
         distance: boat1.distance,
+        rotation: boat1.paal.rotation,
+        zrotation: boat1.paal.zrotation,   
       };
     socket.emit('update', data);
 
@@ -121,18 +121,27 @@ function boatsUpdate(){
     for (var i = 0; i < clients.length; i++) {
         var id = clients[i].id;
         var otherDistance = clients[i].distance;
+        var otherRotation = clients[i].rotation;
+        var otherZRotation = clients[i].zrotation;
 
-        
         if (id !== socket.id) {
-            if(abs(boat1.distance - otherDistance) < W/2 + boatImage.width/2){
+            if(abs(boat1.distance - otherDistance) < W + boatImage.width/2){
+                console.log("visible");
             
-            boat = new Boat(300 - W / 2, 100 - H / 2, 1, boatImage, paalImage);
-            boat.distance = clients[i].distance;
-            boat.x = boat.distance - boat1.distance;
-            boat.display();
-            //console.log(id);
-            
-            //console.log(boat.distance);
+                boat = new Boat(300 - W / 2, 100 - H / 2, 1, boatImage, paalImage);
+                boat.distance = clients[i].distance;
+                boat.x = boat.distance - boat1.distance;
+                
+
+                boat.paal.rotation = otherRotation;
+                boat.paal.zrotation = otherZRotation;
+
+                boat.display();
+                
+                //console.log(id);
+                
+                //console.log(boat.distance);
+                //console.log(boat);
             }
 
         }

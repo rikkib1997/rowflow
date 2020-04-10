@@ -8,9 +8,11 @@
 
 var boats = [];
 
-function Boat(id, distance) {
+function Boat(id, distance, rotation, zrotation) {
   this.id = id;
   this.distance = distance;
+  this.rotation = rotation;
+  this.zrotation = zrotation;
 }
 
 // Using express: http://expressjs.com/
@@ -35,7 +37,7 @@ app.use(express.static('public'));
 // WebSockets work with the HTTP server
 var io = require('socket.io')(server);
 
-setInterval(heartbeat, 33);
+setInterval(heartbeat, 10);
 
 function heartbeat() {
   io.sockets.emit('heartbeat', boats);
@@ -50,13 +52,13 @@ io.sockets.on(
     console.log('We have a new client: ' + socket.id);
 
     socket.on('start', function(data) {
-      console.log(socket.id + ' ' + data.distance);
+      //console.log(socket.id + ' ' + data.distance);
       var boat = new Boat(socket.id, data.distance);
       boats.push(boat);
     });
 
     socket.on('update', function(data) {
-      console.log(socket.id + " " + data.distance);
+      //console.log(socket.id + " " + data.distance);
       var boat;
       for (var i = 0; i < boats.length; i++) {
         if (socket.id == boats[i].id) {
@@ -65,6 +67,10 @@ io.sockets.on(
       }
       if(boat){
         boat.distance = data.distance;
+        boat.rotation = data.rotation;
+        boat.zrotation = data.zrotation;
+        
+
       }
     });
 
