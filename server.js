@@ -75,7 +75,14 @@ io.sockets.on(
     });
 
     socket.on('disconnect', function() {
-      console.log('Client has disconnected ' + socket.id);
+      console.log('Client has disconnected ' + socket.id);      
+      
+          for(var i = 0; i < boats.length; i++){
+              
+              if(socket.id === boats[i].id){
+                  boats.splice(i);
+              }
+          }
     });
   }
 );

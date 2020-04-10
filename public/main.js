@@ -62,8 +62,7 @@ function setup() {
 }
 
 function draw() {
-
-
+    
     orbitControl();
 
     distancetext.html(floor(boat1.distance));
