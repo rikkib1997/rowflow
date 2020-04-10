@@ -6,7 +6,7 @@ features:
 - [ ] message who won
 - [ ] restart game when finished
 - [ ] add name entry
-
+----
 - [ ] add person rowing
 - [ ] interface to customize suit and stickering
 - [ ] background
