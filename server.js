@@ -33,7 +33,7 @@ setInterval(timer, 100);
 function heartbeat() {
 
   io.sockets.emit('heartbeat', boats);
-  console.log(boats)
+  //console.log(boats)
 }
 
 function timer(){
@@ -60,6 +60,12 @@ function restart(){
   }
 }
 
+function won(boat, time){
+  io.sockets.emit('won', boat, time);
+}
+
+
+
 io.sockets.on(
   'connection',
   function(socket) {
@@ -84,6 +90,7 @@ io.sockets.on(
       if(boat.finished && !finished){
         console.log("Boat finished! "+ boat.id);
         finished = true;
+        won(boat, time);
         setTimeout(restart, 3000);
       }
     }

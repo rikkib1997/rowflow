@@ -65,10 +65,16 @@ function setup() {
 
     socket.on('restart', function(){
         boat1.distance = 0;
-        boat1.rotation = 0;
-        boat1.zrotation = 0;
+        boat1.paal.rotation = 0;
+        boat1.paal.zrotation = 0;
         boat1.xspeed = 0;
         boat1.finished = false;
+
+        finishedtext.html("");
+    });
+
+    socket.on('won', function(boat, time){
+        finishedtext.html(boat.id + " won in " + time.toFixed(1) + " seconds!");
     });
 
 }
@@ -113,7 +119,7 @@ function draw() {
             timer++;
         }
     }
-    if(boat1.distance >= 2000){
+    if(boat1.distance >= finishline){
         boat1.finished = true;
     }
 
