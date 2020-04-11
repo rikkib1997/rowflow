@@ -48,15 +48,27 @@ function setup() {
     socket = io.connect('http://localhost:3000');
 
 
-    var data = {
+    var initial = {
         distance: boat1.distance, 
     
     };
-    socket.emit('start', data);
+    socket.emit('start', initial);
 
     socket.on('heartbeat', function(data) {
         clients = data;
         
+    });
+
+    socket.on('timer', function(time){
+        timetext.html(floor(time));
+    });
+
+    socket.on('restart', function(){
+        boat1.distance = 0;
+        boat1.rotation = 0;
+        boat1.zrotation = 0;
+        boat1.xspeed = 0;
+        boat1.finished = false;
     });
 
 }
@@ -66,7 +78,7 @@ function draw() {
     orbitControl();
 
     distancetext.html(floor(boat1.distance));
-    timetext.html(floor(timer));
+    
 
     bgpos -= 0.8 * boat1.xspeed;
     boat1.distance += boat1.xspeed;

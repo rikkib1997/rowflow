@@ -33,11 +33,31 @@ setInterval(timer, 100);
 function heartbeat() {
 
   io.sockets.emit('heartbeat', boats);
+  console.log(boats)
 }
 
 function timer(){
-  time += 0.1;
+  if(!finished){
+    time += 0.1;
+  }
   io.sockets.emit('timer', time);
+  // console.log(time)
+}
+
+function restart(){
+  console.log("restart");
+  for (let i = 0; i<boats.length; i++) {
+    let boat = boats[i];
+    boat.distance = 0;
+    boat.rotation = 0;
+    boat.zrotation = 0;
+    boat.finished = false;
+    finished = false;
+    time = 0;
+
+    io.sockets.emit('restart');
+
+  }
 }
 
 io.sockets.on(
@@ -60,10 +80,11 @@ io.sockets.on(
           boat.zrotation = data.zrotation;
           boat.finished = data.finished;
       }
-      
+
       if(boat.finished && !finished){
         console.log("Boat finished! "+ boat.id);
         finished = true;
+        setTimeout(restart, 3000);
       }
     }
     
