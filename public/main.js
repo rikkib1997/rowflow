@@ -63,7 +63,6 @@ function setup() {
 
     socket.on('heartbeat', function(data) {
         clients = data;
-        //console.log(clients);
         
     });
 
@@ -175,12 +174,10 @@ function boatsUpdate(){
                 boat.paal.rotation = otherRotation;
                 boat.paal.zrotation = otherZRotation;
                 boat.name = otherName;
-                console.log(boat.name);
 
                 boat.display();
                 
-                
-                console.log(boat.distance);
+
             }
 
         }
