@@ -2,10 +2,10 @@
 
 features:
 
-- [ ] global timer
-- [ ] message who won
-- [ ] restart game when finished
-- [ ] add name entry
+- [x] global timer
+- [x] message who won
+- [x] restart game when finished
+- [x] add name entry
 ----
 - [ ] add person rowing
 - [ ] interface to customize suit and stickering
