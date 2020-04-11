@@ -1,11 +1,12 @@
 var boats = [];
 let finished = false;
 
-function Boat(id, distance, rotation, zrotation) {
+function Boat(id, distance, rotation, zrotation, name) {
   this.id = id;
   this.distance = distance;
   this.rotation = rotation;
   this.zrotation = zrotation;
+  this.name = name;
 }
 
 var time = 0;
@@ -85,18 +86,16 @@ io.sockets.on(
           boat.rotation = data.rotation;
           boat.zrotation = data.zrotation;
           boat.finished = data.finished;
+          boat.name = data.name;
+        }
+
+        if(boat.finished && !finished){
+          console.log("Boat finished! "+ boat.name + " " + boat.id);
+          finished = true;
+          won(boat, time);
+          setTimeout(restart, 3000);
+        }
       }
-
-      if(boat.finished && !finished){
-        console.log("Boat finished! "+ boat.id);
-        finished = true;
-        won(boat, time);
-        setTimeout(restart, 3000);
-      }
-    }
-    
-
-
     });
 
     socket.on('disconnect', function() {
@@ -110,5 +109,4 @@ io.sockets.on(
           }
     });
 
-  }
-);
+});

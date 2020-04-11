@@ -9,7 +9,11 @@ var bgpos = 0;
 var gestart = false;
 var textbox;
 var timer = 0;
-var finishline = 10000;
+var finishline = 1000;
+
+let nameInput;
+let inconsolata;
+
 
 var clients = [];
 
@@ -28,7 +32,7 @@ function setup() {
     strokeWeight(4);
     noFill();
     angleMode(RADIANS);
-    perspective(PI / 3.0, W / H, 0.1, 500);
+    //perspective(PI / 3.0, W / H, 0.1, 500);
     ortho(-W / 2, W / 2, -H / 2, H / 2, 1, 500);
     angleMode(DEGREES);
 
@@ -36,9 +40,12 @@ function setup() {
     timetext = createP("0").addClass("time");
     finishedtext = createP().addClass("finished");
 
-
-
-
+    nameInput = createInput();
+    button = createButton('name');
+    button.mousePressed(updateName);
+    fill(0);
+    textSize(W/15);
+    textFont(inconsolata);
 
 
     imageMode(CENTER)
@@ -74,14 +81,24 @@ function setup() {
     });
 
     socket.on('won', function(boat, time){
-        finishedtext.html(boat.id + " won in " + time.toFixed(1) + " seconds!");
+        finishedtext.html(boat.name + " won in " + time.toFixed(1) + " seconds!");
     });
 
 }
 
+function updateName(){
+    let name = nameInput.value();
+    boat1.name = name;
+}
+
+function randomName(){
+    
+    return array[Math.floor(Math.random() * names.length)];
+}
+
 function draw() {
     
-    orbitControl();
+    //orbitControl();
 
     distancetext.html(floor(boat1.distance));
     
@@ -98,13 +115,14 @@ function draw() {
     translate(0, -10)
     image(backgroundImage, bgpos, 0)
     image(backgroundImage, bgpos + W - 50, 0)
+    
     pop();
     if (bgpos < -W) {
         bgpos = -50;
     }
 
 
-
+    noFill();
     rect(-W / 2, -H / 2, W, H);
     boat1.display();
     boat2.xspeed = 9.5;
@@ -112,6 +130,7 @@ function draw() {
     boat2.xspeed = boat2.xspeed - boat1.xspeed;
 
     boatsUpdate();
+
 
     if (gestart) {
         boat2.move()
@@ -129,6 +148,7 @@ function draw() {
         rotation: boat1.paal.rotation,
         zrotation: boat1.paal.zrotation,   
         finished: boat1.finished,
+        name: boat1.name,
       };
     socket.emit('update', data);
 
@@ -207,6 +227,7 @@ class Boat {
 
         this.paal = new Paal(this.x, this.y, paalimage)
 
+        this.name = "anonymous";
     }
 
     display() {
@@ -214,13 +235,17 @@ class Boat {
         translate(0, 0, 150)
         scale(0.6)
         image(this.boatimage, this.x, this.y);
+        fill(0);
+        //textAlign(this.x, this.y);
 
+        text(this.name,this.x-190,this.y);
         this.paal.update(this.x, this.y - 50);
         this.paal.display();
+        
         pop()
 
 
-
+        
 
 
 
@@ -284,7 +309,7 @@ class Paal {
 
 
 
-
+        //todo: rotates should be in paal.update()
         rotateY(this.rotation);
         rotateZ(this.zrotation)
         this.rotate();
