@@ -63,6 +63,7 @@ function setup() {
 
     socket.on('heartbeat', function(data) {
         clients = data;
+        //console.log(clients);
         
     });
 
@@ -161,6 +162,7 @@ function boatsUpdate(){
         var otherDistance = clients[i].distance;
         var otherRotation = clients[i].rotation;
         var otherZRotation = clients[i].zrotation;
+        var otherName = clients[i].name;
 
         if (id !== socket.id) {
             if(abs(boat1.distance - otherDistance) < W + boatImage.width/2){
@@ -172,6 +174,8 @@ function boatsUpdate(){
 
                 boat.paal.rotation = otherRotation;
                 boat.paal.zrotation = otherZRotation;
+                boat.name = otherName;
+                console.log(boat.name);
 
                 boat.display();
                 
