@@ -9,7 +9,7 @@ var bgpos = 0;
 var gestart = false;
 var textbox;
 var timer = 0;
-var finishline = 1000;
+var finishline = 10000;
 
 let nameInput;
 let inconsolata;
@@ -97,7 +97,6 @@ function randomName(){
 }
 
 function draw() {
-    
     //orbitControl();
 
     distancetext.html(floor(boat1.distance));

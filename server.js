@@ -11,20 +11,58 @@ function Boat(id, distance, rotation, zrotation, name) {
 
 var time = 0;
 
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
 var express = require('express');
+require('dotenv').config();
+
+
 var app = express();
 
-var server = app.listen(process.env.PORT || 3000, listen);
-
-function listen() {
-  var host = server.address().address;
-  var port = server.address().port;
-  console.log('Example app listening at http://' + host + ':' + port);
-}
-
+app.use(express.static(__dirname, { dotfiles: 'allow'} ));
 app.use(express.static('public'));
 
-var io = require('socket.io')(server);
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/rowflow.rikdewit.nl/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/rowflow.rikdewit.nl/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/rowflow.rikdewit.nl/chain.pem', 'utf8');
+
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
+
+if(process.env.NODE_ENV === "development"){
+  let server = app.listen(process.env.PORT || 3000, listen);
+
+  function listen() {
+    let host = server.address().address;
+    let port = server.address().port;
+    console.log('Example app listening at http://' + host + ':' + port);
+  }
+  var io = require('socket.io')(server);
+
+}else if(process.env.NODE_ENV === "production"){
+
+
+  let sslserver = httpsServer.listen(3000, () => {
+    let host = sslserver.address().address;
+    let port = sslserver.address().port;
+    console.log('Example app listening at https://' + host + ':' + port);
+    
+  });
+  var io = require('socket.io')(sslserver);
+
+}
+
+
+
+
 
 setInterval(heartbeat, 10);
 setInterval(timer, 100);

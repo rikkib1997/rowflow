@@ -1,16 +1,17 @@
 {
-  "name": "sockets_p5",
+  "name": "rowflow",
   "version": "1.0.0",
-  "description": "This is an example for how to use sockets with p5.js.",
+  "description": "A multiplayer rowing game",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Daniel Shiffman",
+  "author": "Rik de Wit",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.13.4",
-    "socket.io": "^1.4.5",
-    "socketio": "^1.0.0"
+    "nodemon": "^2.0.3",
+    "socket.io": "^1.4.5"
   }
 }

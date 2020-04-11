@@ -25,5 +25,6 @@ fixes:
 ## Instructions
 ```
 npm install
+echo "NODE_ENV=development" > .env
 npm start
 ```
