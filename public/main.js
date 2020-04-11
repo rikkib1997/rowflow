@@ -1,5 +1,5 @@
 var W = 640;
-var H = 480;
+var H = 300;
 var FR = 60;
 
 var boatImage;
@@ -101,11 +101,16 @@ function draw() {
             timer++;
         }
     }
+    if(boat1.distance >= 2000){
+        boat1.finished = true;
+    }
+
 
     var data = {
         distance: boat1.distance,
         rotation: boat1.paal.rotation,
         zrotation: boat1.paal.zrotation,   
+        finished: boat1.finished,
       };
     socket.emit('update', data);
 
