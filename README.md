@@ -28,3 +28,9 @@ npm install
 echo "NODE_ENV=development" > .env
 npm start
 ```
+
+You can use nodemon to get auto-reload for development
+
+```
+nodemon start
+```
