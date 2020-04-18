@@ -9,7 +9,7 @@ var bgpos = 0;
 var gestart = false;
 var textbox;
 var timer = 0;
-var finishline = 10000;
+var finishline = 1000;
 
 let nameInput;
 let inconsolata;
@@ -52,7 +52,7 @@ function setup() {
     boat1 = new Boat(300 - W / 2, 330 - H / 2, 0, boatImage, paalImage);
     boat2 = new Boat(300 - W / 2, 100 - H / 2, 1, boatImage, paalImage);
 
-    socket = io.connect('http://localhost:3000');
+    socket = io.connect(window.location.host);
 
 
     var initial = {
@@ -76,6 +76,7 @@ function setup() {
         boat1.paal.zrotation = 0;
         boat1.xspeed = 0;
         boat1.finished = false;
+        console.log("restart");
 
         finishedtext.html("");
     });

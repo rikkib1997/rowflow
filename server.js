@@ -87,7 +87,12 @@ function timer(){
 
 function restart(){
   console.log("restart");
+  io.sockets.emit('restart');
   for (let i = 0; i<boats.length; i++) {
+
+
+    
+
     let boat = boats[i];
     boat.distance = 0;
     boat.rotation = 0;
@@ -95,8 +100,6 @@ function restart(){
     boat.finished = false;
     finished = false;
     time = 0;
-
-    io.sockets.emit('restart');
 
   }
 }
