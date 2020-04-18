@@ -1,4 +1,4 @@
-var boats = [];
+let boats = [];
 let finished = false;
 
 function Boat(id, distance, rotation, zrotation, name) {
@@ -9,16 +9,16 @@ function Boat(id, distance, rotation, zrotation, name) {
   this.name = name;
 }
 
-var time = 0;
+let time = 0;
 
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
-var express = require('express');
+let express = require('express');
 require('dotenv').config();
 
 
-var app = express();
+let app = express();
 
 app.use(express.static(__dirname, { dotfiles: 'allow'} ));
 app.use(express.static('public'));
@@ -144,7 +144,7 @@ io.sockets.on(
     socket.on('disconnect', function() {
       console.log('Client has disconnected ' + socket.id);      
       
-          for(var i = 0; i < boats.length; i++){
+          for(let i = 0; i < boats.length; i++){
               
               if(socket.id === boats[i].id){
                   boats.splice(i, 1);

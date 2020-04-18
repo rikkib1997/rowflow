@@ -1,21 +1,21 @@
-var W = 640;
-var H = 300;
-var FR = 60;
+let W = 640;
+let H = 300;
+let FR = 60;
 
-var boatImage;
-var paalImage
-var backgroundImage;
-var bgpos = 0;
-var gestart = false;
-var textbox;
-var timer = 0;
-var finishline = 1000;
+let boatImage;
+let paalImage;
+let backgroundImage;
+let bgpos = 0;
+let gestart = false;
+let textbox;
+let timer = 0;
+let finishline = 1000;
 
 let nameInput;
 let inconsolata;
 
 
-var clients = [];
+let clients = [];
 
 
 function preload() {
@@ -55,7 +55,7 @@ function setup() {
     socket = io.connect(window.location.host);
 
 
-    var initial = {
+    let initial = {
         distance: boat1.distance, 
     
     };
@@ -143,7 +143,7 @@ function draw() {
     }
 
 
-    var data = {
+    let data = {
         distance: boat1.distance,
         rotation: boat1.paal.rotation,
         zrotation: boat1.paal.zrotation,   
@@ -157,12 +157,12 @@ function draw() {
 }
 
 function boatsUpdate(){
-    for (var i = 0; i < clients.length; i++) {
-        var id = clients[i].id;
-        var otherDistance = clients[i].distance;
-        var otherRotation = clients[i].rotation;
-        var otherZRotation = clients[i].zrotation;
-        var otherName = clients[i].name;
+    for (let i = 0; i < clients.length; i++) {
+        let id = clients[i].id;
+        let otherDistance = clients[i].distance;
+        let otherRotation = clients[i].rotation;
+        let otherZRotation = clients[i].zrotation;
+        let otherName = clients[i].name;
 
         if (id !== socket.id) {
             if(abs(boat1.distance - otherDistance) < W + boatImage.width/2){
